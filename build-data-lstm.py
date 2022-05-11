@@ -294,8 +294,8 @@ result = [next_char]
 
 
 for n in range(10000):
-  next_char, f_states, f_cell_states, f_states2, f_cell_states2 = one_step_model.generate_one_step(inputs=next_char, f_states=f_states, f_cell_states=f_cell_states, f_states2=f_states2, f_cell_states2=f_cell_states2, return_state=True)
-  result.append(next_char)
+	next_char, f_states, f_cell_states, f_states2, f_cell_states2 = one_step_model.generate_one_step(inputs=next_char, f_states=f_states, f_cell_states=f_cell_states, f_states2=f_states2, f_cell_states2=f_cell_states2, return_state=True)
+	result.append(next_char)
 
 
 result = tf.strings.join(result)
