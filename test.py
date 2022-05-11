@@ -11,7 +11,7 @@ tf.keras.backend.clear_session()
 GENERATION = os.environ['gen']
 EPOCHS = 3
 seq_length = 100
-path_to_file = 'smol.txt'
+path_to_file = 'all_journals_1.txt'
 BATCH_SIZE = 64
 embedding_dim = 256
 rnn_units = 1024
