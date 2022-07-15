@@ -8,9 +8,4 @@ This was taken from a tutorial on tensorflow's site (https://www.tensorflow.org/
 
 Something I've thought of doing with this is scraping text from wikipedia or taking submissions (probably not the best idea) and retraining the model every night with new data.  The text file could be given a character limit, and cycle out old content (too large of a file would be useless anyway as I'm pretty sure an LSTM can still only remember so far back).  
 
-Eventually I will refactor this.  Note that I removed the body of text that the model trains on.  Also note that the model weights that I trained aren't available on this git because the size is too large.  You can find them at:
-	- https://01014.org/ml_weights/gen_6/checkpoint
-	- https://01014.org/ml_weights/gen_6/maxbot_gen_smol_lstm.data-00000-of-00001
-	- https://01014.org/ml_weights/gen_6/maxbot_gen_smol_lstm.index
-
-For the script to work, these three files should be saved in a folder called `gen_6` in the top directory that the scripts are contained in.
+I removed the body of text that the model trains on, as it is private, as well as the weights of the model.  To run this, you'd have to train it with your own body of text.
