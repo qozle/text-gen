@@ -19,7 +19,6 @@ rnn_units = 1024
 
 print(f"GENERATION {GENERATION}.")
 
-##  shakespere data- replace this
 
 ##  get the text
 text = open(path_to_file, 'rb').read().decode(encoding='utf-8')
@@ -79,8 +78,6 @@ dataset = sequences.map(split_input_target)
 BUFFER_SIZE = 10000
 
 
-##  Why are we shuffling the data?
-##  I think we're shuffling the batches, not the data
 dataset = (
 	dataset
 	# .shuffle(BUFFER_SIZE)
@@ -90,7 +87,6 @@ dataset = (
 
 # Length of the vocabulary in chars
 vocab_size = len(vocab)
-
 
 
 ##  define the model

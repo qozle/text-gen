@@ -1,25 +1,24 @@
 import tensorflow as tf
 
-import os
 import time
 
 #  hopefully this does garbage cleanup...?
 tf.keras.backend.clear_session()
 
-GENERATION = os.environ['gen']
+# GENERATION = os.environ['gen']
 EPOCHS = 60
 seq_length = 100
-path_to_file = 'all_journals_1.txt'
+path_to_file = 'authors.txt'
 BATCH_SIZE = 64
 embedding_dim = 256
-rnn_units = 1024
+rnn_units = 256
 
 
 
 
 
 
-print(f"GENERATION {GENERATION}.")
+# print(f"GENERATION {GENERATION}.")
 
 ##  shakespere data- replace this
 
@@ -106,8 +105,8 @@ class MyModel(tf.keras.Model):
 		self.rnn_units = rnn_units
 		self.embedding = tf.keras.layers.Embedding(vocab_size, embedding_dim)
 		self.dropout = tf.keras.layers.Dropout(.1)
-		self.lstm1 = tf.keras.layers.LSTM(rnn_units, return_state=True, return_sequences=True, name='lstm1')
-		self.lstm2 = tf.keras.layers.LSTM(rnn_units, return_state=True, return_sequences=True, name='lstm2')
+		self.lstm1 = tf.keras.layers.LSTM(rnn_units, return_state=True, return_sequences=True, name='mf_lstm1')
+		self.lstm2 = tf.keras.layers.LSTM(rnn_units, return_state=True, return_sequences=True, name='mf_lstm2')
 		self.dropout2 = tf.keras.layers.Dropout(.1)
 		self.pre_dense = tf.keras.layers.Dense(126)
 		self.dense = tf.keras.layers.Dense(vocab_size)
@@ -228,6 +227,9 @@ model.summary()
 
 history = model.fit(dataset, epochs=EPOCHS)
 
+#  save model
+model.save("authors_model_256")
+
 
 
 
@@ -280,7 +282,9 @@ one_step_model = OneStep(model, chars_from_ids, ids_from_chars)
 
 
 
-model.save_weights('gen_' + GENERATION + '/maxbot_gen_smol_lstm', save_format='tf')
+# model.save_weights('gen_' + GENERATION + '/maxbot_gen_smol_lstm', save_format='tf')
+
+one_step_model.save("authors_one_step_256")
 
 
 start = time.time()

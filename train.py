@@ -1,13 +1,14 @@
 import tensorflow as tf
-from tensorflow.keras import layers
-
-import numpy as np
-import os
-import time
 
 
-##  shakespere data- replace this
-path_to_file = 'all_journals_1.txt'
+##  Uses excerpts from authors:
+#  C.S. Lewis "Mere christianity"
+#  Franz Kaka "Metamorphasis"
+#  Terry Goodkind (two books, I already forget)
+#  Moby Dick
+
+
+path_to_file = 'authors.txt'
 
 ##  get the text
 text = open(path_to_file, 'rb').read().decode(encoding='utf-8')
@@ -74,8 +75,6 @@ BATCH_SIZE = 64
 BUFFER_SIZE = 10000
 
 
-##  Why are we shuffling the data?
-##  I think we're shuffling the batches, not the data
 dataset = (
 	dataset
 	.shuffle(BUFFER_SIZE)
@@ -96,9 +95,9 @@ rnn_units = 1024
 model = tf.keras.Sequential()
 
 
-model.add(layers.Embedding(vocab_size, embedding_dim))
-model.add(layers.LSTM(1024, stateful=True))
-model.add(layers.Dense(vocab_size))
+model.add(tf.keras.layers.Embedding(vocab_size, embedding_dim))
+model.add(tf.keras.layers.LSTM(1024, stateful=True))
+model.add(tf.keras.layers.Dense(vocab_size))
 
 loss = tf.losses.SparseCategoricalCrossentropy(from_logits=True)
 
@@ -107,6 +106,8 @@ model.compile(optimizer='adam', loss=loss)
 EPOCHS = 1
 
 history = model.fit(dataset, epochs=EPOCHS, batch_size=1)
+
+model.save('text-gen-model')
 
 prediction = model.predict(["this is some test text"])
 
