@@ -31,7 +31,7 @@ chars_from_ids = tf.keras.layers.StringLookup(vocabulary=ids_from_chars.get_voca
 
 ##  we'll need this at some point later 
 def text_from_ids(ids):
-  return tf.strings.reduce_join(chars_from_ids(ids), axis=-1)
+	return tf.strings.reduce_join(chars_from_ids(ids), axis=-1)
 
 
 ##  convert the 'text' vector into a stream of character indices from our vocab
@@ -54,7 +54,7 @@ sequences = ids_dataset.batch(seq_length+1, drop_remainder=True)
 
 ##  look at the first five batches of 100 char sequences
 for seq in sequences.take(5):
-  print(text_from_ids(seq).numpy())
+	print(text_from_ids(seq).numpy())
 
 
 ##  function to split sequences in to (input, target) pairs
@@ -140,9 +140,9 @@ rnn_units = 1024
 
 ##  Custom training procedure
 model = CustomTraining(
-    vocab_size=len(ids_from_chars.get_vocabulary()),
-    embedding_dim=embedding_dim,
-    rnn_units=rnn_units)
+	vocab_size=len(ids_from_chars.get_vocabulary()),
+	embedding_dim=embedding_dim,
+	rnn_units=rnn_units)
 
 
 
@@ -257,8 +257,8 @@ result = [next_char]
 # exit()
 
 for n in range(10000):
-  next_char, states = one_step_model.generate_one_step(next_char, states=states)
-  result.append(next_char)
+	next_char, states = one_step_model.generate_one_step(next_char, states=states)
+	result.append(next_char)
 
 result = tf.strings.join(result)
 end = time.time()

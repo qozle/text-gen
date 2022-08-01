@@ -253,7 +253,7 @@ class OneStep(tf.keras.Model):
 		self.prediction_mask = tf.sparse.to_dense(sparse_mask)
 
 	@tf.function
-	def generate_one_step(self, inputs, f_states=None, f_cell_states=None, f_states2=None, f_cell_states2=None, return_state=True):
+	def call(self, inputs, f_states=None, f_cell_states=None, f_states2=None, f_cell_states2=None, return_state=True):
 		# Convert strings to token IDs.
 		input_chars = tf.strings.unicode_split(inputs, 'UTF-8')
 		input_ids = self.ids_from_chars(input_chars).to_tensor()
@@ -284,7 +284,9 @@ one_step_model = OneStep(model, chars_from_ids, ids_from_chars)
 
 # model.save_weights('gen_' + GENERATION + '/maxbot_gen_smol_lstm', save_format='tf')
 
-one_step_model.save("authors_one_step_256")
+
+#  I think we have to compile the model before it will work
+one_step_model.compile()
 
 
 start = time.time()
@@ -298,12 +300,29 @@ result = [next_char]
 
 
 for n in range(10000):
-	next_char, f_states, f_cell_states, f_states2, f_cell_states2 = one_step_model.generate_one_step(inputs=next_char, f_states=f_states, f_cell_states=f_cell_states, f_states2=f_states2, f_cell_states2=f_cell_states2, return_state=True)
+	next_char, f_states, f_cell_states, f_states2, f_cell_states2 = one_step_model(inputs=next_char, f_states=f_states, f_cell_states=f_cell_states, f_states2=f_states2, f_cell_states2=f_cell_states2, return_state=True)
 	result.append(next_char)
 
 
 result = tf.strings.join(result)
-end = time.time()
 print(result[0].numpy().decode('utf-8'), '\n\n' + '_'*80)
+
+
+
+print("SAVING MODEL....")
+#  have to call the model on actual data before we can save
+one_step_model.save("authors_one_step_256")
+print("MODEL SAVED.......")
+
+end = time.time()
+
+
 print('\nRun time:', end - start)
+
+
+
+
+
+
+
 
